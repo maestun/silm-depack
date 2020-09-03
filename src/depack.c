@@ -449,7 +449,7 @@ void depack(char * path) {
                 sPlatform platform = guess_platform(pack_path);
                 if(is_supported(platform)) {
                     memset(depack_path, 0, kPathLen);
-                    sprintf(depack_path, "%s%s%s%s%s.%s", path, sep, depack_folder, sep, ent->d_name, kDepackExtension);
+                    sprintf(depack_path, "%s%s%s%s/%s.%s", path, sep, depack_folder, sep, ent->d_name, kDepackExtension);
                     depack_file(pack_path, depack_path, platform);
                 }
                 else {
