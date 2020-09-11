@@ -16,14 +16,14 @@
 #include <sys/stat.h>
 
 #define kProgName           "silm-depack"
-#define kProgVersion        "0.1"
+#define kProgVersion        "0.2"
 #define kDepackFolder       "depack"
 #define kDepackExtension    "bin"
 #define kPathLen            (256)
 #ifdef _WIN32
-#  define kPathSeparator    "\\"
+#  define kPathSeparator    '\\'
 #else
-#  define kPathSeparator    "/"
+#  define kPathSeparator    '/'
 #endif
 
 typedef uint8_t     u8;

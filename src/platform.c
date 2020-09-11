@@ -56,7 +56,7 @@ sPlatform guess_platform(char * path) {
         while ((ent = readdir(dir)) != NULL) {
             if(ent->d_type == DT_REG) {
                 memset(main_path, 0, kPathLen);
-                sprintf(main_path, "%s%s%s", path, kPathSeparator, ent->d_name);
+                sprintf(main_path, "%s%c%s", path, kPathSeparator, ent->d_name);
                 platform = get_platform(main_path);
                 if(platform.kind != EPlatformUnknown) {
                     break;

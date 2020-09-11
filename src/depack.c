@@ -292,7 +292,7 @@ void depack_file(char * pak_name, char * depak_name, sPlatform platform) {
     FILE * pak_file = fopen(pak_name, "r");
     
     if(pak_file) {
-        printf("Packed file: %s (%s)\n", strrchr(pak_name, '/') + 1, platform.desc);
+        printf("Packed file: %s (%s)\n", pak_name, platform.desc);
 
         // other info
         uint8_t magic = getMagic(pak_file, platform);
@@ -432,24 +432,24 @@ void depack(char * path) {
     char pack_path[kPathLen] = {0};
     char depack_path[kPathLen] = {0};
     const char * depack_folder = kDepackFolder;
-    const char * sep = path[strlen(path) - 1] == '/' ? "" : kPathSeparator;
+    const char sep = path[strlen(path) - 1] == '/' ? '\0' : kPathSeparator;
     
     if((dir = opendir(path)) != NULL) {
         // path is a folder
         // create output path
         memset(depack_path, 0, kPathLen);
-        sprintf(depack_path, "%s%s%s", path, sep, depack_folder);
+        sprintf(depack_path, "%s%c%s", path, sep, depack_folder);
         mkdir(depack_path, 0777);
         
         while ((ent = readdir(dir)) != NULL) {
             if(ent->d_type == DT_REG) {
                 // it's a file
                 memset(pack_path, 0, kPathLen);
-                sprintf(pack_path, "%s%s%s", path, sep, ent->d_name);
+                sprintf(pack_path, "%s%c%s", path, sep, ent->d_name);
                 sPlatform platform = guess_platform(pack_path);
                 if(is_supported(platform)) {
                     memset(depack_path, 0, kPathLen);
-                    sprintf(depack_path, "%s%s%s%s/%s.%s", path, sep, depack_folder, sep, ent->d_name, kDepackExtension);
+                    sprintf(depack_path, "%s%c%s%c%s.%s", path, sep, depack_folder, sep, ent->d_name, kDepackExtension);
                     depack_file(pack_path, depack_path, platform);
                 }
                 else {
@@ -467,7 +467,7 @@ void depack(char * path) {
             depack_file(path, depack_path, platform);
         }
         else {
-            printf("ERROR: unsupported file: %s\n", strrchr(path, kPathSeparator[0]) + 1);
+            printf("ERROR: unsupported file: %s\n", strrchr(path, kPathSeparator) + 1);
         }
     }
     else {

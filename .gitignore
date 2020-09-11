@@ -3,3 +3,5 @@ silm-depack
 DerivedData/
 data/
 xcuserdata/
+*.dSYM
+.vscode/tasks
