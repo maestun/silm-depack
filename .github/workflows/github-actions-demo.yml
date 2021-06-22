@@ -18,7 +18,7 @@ jobs:
   #         ls ${{ github.workspace }}
   #     - run: echo "🍏 This job's status is ${{ job.status }}."
   build-macOS:
-    runs-on: macos-11
+    runs-on: macos-latest
     steps:
       - run: echo "🍏 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
       - name: Check out repository code
