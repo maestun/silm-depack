@@ -14,6 +14,9 @@
 #include <libgen.h>
 #include <ctype.h>
 #include <sys/stat.h>
+#ifdef _WIN32
+#  include "dirent.h"
+#endif
 
 #define kProgName           "silm-depack"
 #define kProgVersion        "0.2"
