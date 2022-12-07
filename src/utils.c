@@ -1,41 +1,36 @@
 //
 //  utils.c
-//  silm-depack
+//  silmarils-unpacker
 //
 
 #include "utils.h"
 
-uint32_t reverse_bytes_32(uint32_t value) {
-    return (value & 0x000000FFU) << 24 | (value & 0x0000FF00U) << 8 | (value & 0x00FF0000U) >> 8 | (value & 0xFF000000U) >> 24;
+int is_host_le() {
+    static unsigned int x = 1;
+    char* c = (char*)&x;
+    return (int)*c;
 }
 
-long get_file_size(char * file_name) {
-    long sz = -1;
-    FILE * fp = fopen(file_name, "r");
-    if(fp) {
-        fseek(fp, 0L, SEEK_END);
-        sz = ftell(fp);
-        fclose(fp);
-    }
-    return sz;
+u32 swap32(u32 value, u8 is_le) {
+    return is_le == is_host_le() ? value : ((value >> 24) & 0xff) |
+                                           ((value <<  8) & 0xff0000) |
+                                           ((value >>  8) & 0xff00) |
+                                           ((value << 24) & 0xff000000);
 }
 
-
-char * strlower(char * str) {
-    char * ptr = str;
-    if(ptr) {
-        for ( ; *ptr; ++ptr)
-            *ptr = tolower(*ptr);
-    }
-    return str;
+u32 fread32(FILE* fp, u8 is_le) {
+    u32 v = 0;
+    fread(&v, sizeof(u32), 1, fp);
+    return swap32(v, is_le);
 }
 
+u16 swap16(u16 value, u8 is_le) {
+    return is_le == is_host_le() ? value : (value <<  8) |
+                                           (value >>  8);
+}
 
-char * strupper(char * str) {
-    char * ptr = str;
-    if(ptr) {
-        for ( ; *ptr; ++ptr)
-            *ptr = toupper(*ptr);
-    }
-    return str;
+u16 fread16(FILE* fp, u8 is_le) {
+    u16 v = 0;
+    fread(&v, sizeof(u16), 1, fp);
+    return swap16(v, is_le);
 }

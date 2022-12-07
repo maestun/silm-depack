@@ -1,14 +1,11 @@
 //
 //  platform.h
-//  silm-depack
+//  silmarils-unpacker
 //
 
-#ifndef platform_h
-#define platform_h
+#pragma once
 
 #include "config.h"
-#include "utils.h"
-
 
 typedef enum {
     EPlatformAtari = 0,
@@ -22,16 +19,18 @@ typedef enum {
 
 
 typedef struct {
-    EPlatform   kind;       
-    char        desc[32];   // platform description
-    char        ext[8];     // script file extension
-    u16         width;      // screen info
+    EPlatform   kind;
+    char        desc[kDescMaxLen];  // platform description
+    char        ext[4];             // script file extension
+    u32         ram_sz;             // size of ram, in bytes
+    u32         video_ram_sz;       // size of video ram, in bytes
+    u16         width;              // screen info
     u16         height;
     u8          bpp;
+    u8          is_little_endian;
+    char        path[kPathMaxLen];  // path to scripts
+    char        main[kPathMaxLen];  // path to main script
 } sPlatform;
 
-
-sPlatform   guess_platform(char * folder_path);
-int         is_supported(sPlatform platform);
-
-#endif /* platform_h */
+sPlatform*  pl_guess(const char* folder_path);
+int         pl_supported(sPlatform* platform);

@@ -1,7 +1,4 @@
-silm-depack
 .DS_Store
-DerivedData/
 data/
-xcuserdata/
-*.dSYM
-.vscode/tasks
+build/
+.vscode/
